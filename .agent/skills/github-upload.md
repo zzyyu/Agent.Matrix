@@ -8,7 +8,8 @@
 - 用户要求"创建 issue"、"上报问题"、"把任务提交到 GitHub"
 
 ## 仓库与凭证（2026-11-09 实测）
-- 仓库：`https://github.com/philfanzhou/OpenAgent`（公开仓库，默认分支 `main`，未归档）
+- 仓库：`https://github.com/philfanzhou/OpenAgent`（公开仓库，未归档）
+- **PR 目标分支（base）：`dev`**（2026-11-09 维护者指定；不要默认打向 `main`）。`dev` 与 `main` 已分叉（当时 dev 领先 142 提交、main 领先 12），分支必须基于 `origin/dev` 创建，否则 PR diff 会混入无关变更
 - 认证：Paperclip 托管 GitHub 凭证（用户 `zzyyu`）；git 的 HTTPS 操作自动认证，SSH 地址自动重写为 HTTPS
 - **实测权限结论（重要）**：
   - 读公开仓库、`GET /user`：✅ 正常
@@ -19,8 +20,8 @@
 ## 工作流程
 
 ### 一、上传 PR（当前可用路径：fork + 分支）
-1. 同步最新 `main`：`git fetch origin && git rebase origin/main`
-2. 建分支，命名 `agent/<主题>`（与仓库既有 `agent/*` 分支约定一致，如 `agent/fix-readme-paths`）
+1. 同步最新 `dev`：`git fetch origin && git rebase origin/dev`（**所有上传分支基于 `dev`**，不要基于 `main`）
+2. **每次上传单独建新分支**，命名 `agent/<主题>`（与仓库既有 `agent/*` 分支约定一致，如 `agent/fix-readme-paths`）；不要在旧分支上叠加另一个任务的提交
 3. 提交改动：遵循 `coding-conventions.md`；一次 PR 只做一件事，提交信息用英文祈使句
 4. 推送到 fork（直接 push `philfanzhou/OpenAgent` 会 403）：
    ```bash
@@ -28,9 +29,9 @@
    git push -u fork <branch>
    ```
 5. 创建 PR，二选一：
-   - **API**（需连接授权覆盖上游仓库）：`POST /repos/philfanzhou/OpenAgent/pulls`，`base: main`，`head: zzyyu:<branch>`；当前返回 403，说明授权未覆盖
+   - **API**（需连接授权覆盖上游仓库）：`POST /repos/philfanzhou/OpenAgent/pulls`，`base: dev`，`head: zzyyu:<branch>`；当前返回 403，说明授权未覆盖
    - **一键比较 URL**（始终可用，由维护者点击创建）：
-     `https://github.com/philfanzhou/OpenAgent/compare/main...zzyyu:Agent.Matrix:<branch>`
+     `https://github.com/philfanzhou/OpenAgent/compare/dev...zzyyu:Agent.Matrix:<branch>`
 6. 把分支名/比较链接返回给用户；评审或 CI 意见回来后在同一分支追加提交再 push
 
 ### 二、上传 Issue
