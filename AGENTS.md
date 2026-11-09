@@ -40,6 +40,7 @@ Backend/
 - 前端 feature 只依赖本域和 shared，跨域设置由 app 组合；新模块不引用根兼容 facade。
 - 后端模块依赖与前端 import 依赖已有测试门禁；不要通过扩大白名单绕过架构问题。
 - 所有模块文档仍收入 docs/，源码目录不散放 README。
+- 代码改动通过 GitHub PR 提交、缺陷/需求通过 Issue 跟踪：[GitHub 上传流程](.agent/skills/github-upload.md)（仓库 `philfanzhou/OpenAgent`，PR 与 issue 上传权限已实测可用）。
 
 ## 编码规则
 
@@ -48,7 +49,7 @@ Backend/
 ## AI 资源
 
 - `.agent/README.md` — 技能/规则索引
-- `.agent/skills/` — 任务工作流（构建、测试、E2E、文档等）
+- `.agent/skills/` — 任务工作流（构建、测试、E2E、GitHub 上传、文档等）
 - `.agent/rules/` — 编码规范 + 文档规范
 
 ## 文档中心
