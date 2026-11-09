@@ -34,6 +34,7 @@
 .agent/skills/
 ├── build-and-test.md         ← 构建与测试命令
 ├── e2e-test.md               ← E2E 测试 + 服务生命周期
+├── github-upload.md          ← GitHub PR / Issue 上传流程（PR 基于 dev）
 └── update-docs.md            ← 文档整理
 ```
 
